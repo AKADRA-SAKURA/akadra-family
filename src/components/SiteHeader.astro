@@ -1,0 +1,115 @@
+---
+const pets = [
+  { name: "姫芽", href: "/pets/hime" },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="inner">
+    <a class="brand" href="/" aria-label="トップへ">
+      <span class="logo" aria-hidden="true">
+        <!-- シンプルな肉球アイコン（SVG） -->
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M7.2 10.2c1 0 1.8-.9 1.8-2 0-1.2-.8-2.2-1.8-2.2S5.4 7 5.4 8.2c0 1.1.8 2 1.8 2ZM16.8 10.2c1 0 1.8-.9 1.8-2 0-1.2-.8-2.2-1.8-2.2S15 7 15 8.2c0 1.1.8 2 1.8 2ZM10.2 9.4c.9 0 1.6-.9 1.6-2 0-1.2-.7-2.1-1.6-2.1s-1.6.9-1.6 2.1c0 1.1.7 2 1.6 2ZM13.8 9.4c.9 0 1.6-.9 1.6-2 0-1.2-.7-2.1-1.6-2.1s-1.6.9-1.6 2.1c0 1.1.7 2 1.6 2Z" />
+          <path d="M12 12.2c-2.6 0-5.3 1.8-5.3 4.4 0 2.2 2 3.7 5.3 3.7s5.3-1.5 5.3-3.7c0-2.6-2.7-4.4-5.3-4.4Z" />
+        </svg>
+      </span>
+      <span class="brandText">Family Gallery</span>
+    </a>
+
+    <nav class="nav" aria-label="ペットページ">
+      {pets.map((p) => {
+        const active = currentPath === p.href;
+        return (
+          <a class={`navLink ${active ? "active" : ""}`} href={p.href}>
+            {p.name}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="right">
+      <a class="pill" href="/#latest">最新</a>
+      <a class="pill ghost" href="/#about">このサイト</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header{
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in srgb, #0b0c10 72%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #ffffff 10%, transparent);
+  }
+  .inner{
+    max-width: 1100px; margin: 0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 18px;
+    gap: 14px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none; color: #fff;
+  }
+  .logo{
+    width: 38px; height: 38px; border-radius: 12px;
+    display:grid; place-items:center;
+    background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  .logo svg{ width: 22px; height: 22px; stroke: rgba(255,255,255,.85); }
+  .logo svg path{ stroke-width: 1.7; stroke: rgba(255,255,255,.85); fill: rgba(255,255,255,.06); }
+
+  .brandText{
+    font-weight: 700; letter-spacing: .2px;
+    font-size: 14px;
+    opacity: .95;
+  }
+  .nav{ display:flex; gap: 8px; align-items:center; }
+  .navLink{
+    padding: 8px 10px;
+    border-radius: 999px;
+    text-decoration:none;
+    color: rgba(255,255,255,.82);
+    border: 1px solid transparent;
+    transition: 160ms ease;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .navLink:hover{
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.10);
+    color: #fff;
+  }
+  .navLink.active{
+    background: rgba(255,255,255,.10);
+    border-color: rgba(255,255,255,.16);
+    color: #fff;
+  }
+  .right{ display:flex; gap: 8px; align-items:center; }
+  .pill{
+    padding: 8px 10px;
+    border-radius: 999px;
+    text-decoration:none;
+    color: rgba(255,255,255,.85);
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    font-size: 12px;
+    font-weight: 650;
+    transition: 160ms ease;
+    white-space: nowrap;
+  }
+  .pill:hover{ background: rgba(255,255,255,.12); color:#fff; }
+  .pill.ghost{
+    background: transparent;
+    border-color: rgba(255,255,255,.10);
+  }
+  @media (max-width: 720px){
+    .brandText{ display:none; }
+    .right{ display:none; }
+  }
+</style>

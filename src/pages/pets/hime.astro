@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="姫芽 | Pet Gallery" description="姫芽の写真ページ（仮）">
+  <section class="wrap">
+    <div class="top">
+      <div class="badge">PET</div>
+      <h1>姫芽</h1>
+      <p>ここに姫芽の写真を並べていくよ（まずは仮ページ）。</p>
+      <a class="back" href="/">← トップへ</a>
+    </div>
+
+    <div class="grid">
+      {Array.from({ length: 12 }).map(() => <div class="tile"></div>)}
+    </div>
+  </section>
+
+  <style>
+    .wrap{ padding-top: 8px; }
+    .top{ margin-bottom: 16px; }
+    .badge{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 12px;
+      color: rgba(255,255,255,.7);
+      letter-spacing: .12em;
+    }
+    h1{ margin: 10px 0 6px; font-size: 34px; letter-spacing: -.02em; }
+    p{ margin: 0 0 10px; color: rgba(255,255,255,.72); }
+    .back{ text-decoration:none; color: rgba(255,255,255,.85); }
+    .back:hover{ text-decoration: underline; }
+
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .tile{
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+  </style>
+</BaseLayout>

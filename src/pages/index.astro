@@ -1,11 +1,240 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Pet Gallery | AKADRA Family" description="姫芽の写真を集めた、家族のフォトギャラリー。">
+  <section class="hero">
+    <div class="copy">
+      <p class="kicker">AKADRA FAMILY</p>
+      <h1>
+        いま、この瞬間が<br />
+        いちばんかわいい。
+      </h1>
+      <p class="lead">
+        ペットの“いつもの顔”を、そっと集めるギャラリー。
+        まずは <strong>姫芽</strong> から。
+      </p>
+
+      <div class="ctaRow">
+        <a class="cta primary" href="/pets/hime">姫芽のページへ</a>
+        <a class="cta secondary" href="#latest">最新の写真を見る</a>
+      </div>
+
+      <div class="chips" id="about">
+        <span class="chip">Astro</span>
+        <span class="chip">S3 / CloudFront</span>
+        <span class="chip">CI/CD</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cardTop">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="title">Today’s Mood</span>
+      </div>
+      <div class="preview">
+        <div class="img ph"></div>
+        <div class="meta">
+          <div class="line strong"></div>
+          <div class="line"></div>
+          <div class="line short"></div>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+      </div>
+      <p class="hint">※ ここは仮のUI。あとでS3の写真に差し替え！</p>
+    </div>
+  </section>
+
+  <section class="section" id="latest">
+    <div class="sectionHead">
+      <h2>Latest</h2>
+      <p>最近の“かわいい”を、さくっと。</p>
+    </div>
+
+    <div class="gallery">
+      {Array.from({ length: 8 }).map(() => <div class="shot"></div>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionHead">
+      <h2>Pets</h2>
+      <p>いまは姫芽だけ。増えたらここに並べていく。</p>
+    </div>
+
+    <a class="petCard" href="/pets/hime">
+      <div class="avatar"></div>
+      <div class="petInfo">
+        <div class="petName">姫芽</div>
+        <div class="petSub">Hime • Small & precious</div>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <style>
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      padding: 22px 0 6px;
+      align-items: start;
+    }
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+      margin: 0 0 10px;
+    }
+    h1{
+      margin: 0;
+      line-height: 1.05;
+      font-size: clamp(34px, 4.6vw, 56px);
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      margin: 14px 0 0;
+      color: rgba(255,255,255,.78);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 52ch;
+    }
+    .ctaRow{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 18px; }
+    .cta{
+      text-decoration:none;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 750;
+      border: 1px solid rgba(255,255,255,.12);
+      transition: 160ms ease;
+      font-size: 13px;
+    }
+    .cta.primary{
+      background: linear-gradient(135deg, rgba(255,91,151,.40), rgba(88,166,255,.26));
+      border-color: rgba(255,255,255,.18);
+    }
+    .cta.primary:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+    .cta.secondary{
+      background: rgba(255,255,255,.06);
+    }
+    .cta.secondary:hover{ background: rgba(255,255,255,.10); }
+
+    .chips{ display:flex; gap:8px; margin-top: 16px; flex-wrap: wrap; }
+    .chip{
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.72);
+    }
+
+    .card{
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      padding: 14px;
+    }
+    .cardTop{
+      display:flex; align-items:center; gap:8px;
+      padding: 4px 2px 12px;
+      color: rgba(255,255,255,.65);
+      font-size: 12px;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; background: rgba(255,255,255,.14); }
+    .title{ margin-left: 6px; }
+
+    .preview{ display:flex; gap: 12px; align-items:center; }
+    .img{
+      width: 120px; height: 120px; border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.38), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.34), transparent 55%),
+                  rgba(255,255,255,.05);
+    }
+    .meta{ flex: 1; }
+    .line{
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      margin: 10px 0;
+    }
+    .line.strong{ height: 14px; background: rgba(255,255,255,.14); width: 78%; }
+    .line.short{ width: 55%; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .tile{
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .hint{
+      margin: 12px 2px 2px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+    }
+
+    .section{ margin-top: 36px; }
+    .sectionHead h2{ margin:0; font-size: 18px; letter-spacing: -.01em; }
+    .sectionHead p{ margin: 6px 0 0; color: rgba(255,255,255,.68); font-size: 13px; }
+
+    .gallery{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .shot{
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      position:relative;
+    }
+    .shot::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
+      opacity: .9;
+    }
+
+    .petCard{
+      margin-top: 14px;
+      display:flex; align-items:center; gap: 14px;
+      padding: 14px;
+      border-radius: 20px;
+      text-decoration:none;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      transition: 160ms ease;
+    }
+    .petCard:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
+    .avatar{
+      width: 48px; height: 48px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,91,151,.35), rgba(88,166,255,.26));
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .petName{ font-weight: 820; }
+    .petSub{ font-size: 12px; color: rgba(255,255,255,.65); margin-top: 2px; }
+    .arrow{ margin-left:auto; color: rgba(255,255,255,.7); font-weight: 900; }
+
+    @media (max-width: 860px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+  </style>
+</BaseLayout>

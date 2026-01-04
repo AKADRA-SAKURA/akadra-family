@@ -30,6 +30,7 @@ async function main() {
     const img = document.createElement("img");
     img.src = url;
     img.loading = "lazy";
+    img.decoding = "async";
     img.alt = "hime photo";
 
     const overlay = document.createElement("div");

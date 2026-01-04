@@ -1,5 +1,5 @@
 // ★ここだけ自分のCloudFrontドメインに合わせてね（末尾スラッシュなし）
-const CDN_BASE = "https://d3do4ipvhj6wv5.cloudfront.net";
+const CDN_BASE = "https://akadra-family.com";
 
 const INDEX_URL = `${CDN_BASE}/photos/hime/index.json`;
 

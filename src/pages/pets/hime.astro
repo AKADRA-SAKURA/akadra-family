@@ -214,6 +214,45 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
                   radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
       opacity: .9;
     }
+    .gallery{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .shot{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;   /* ← 正方形 */
+      overflow: hidden;      /* ← はみ出し非表示 */
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    /* 画像は枠いっぱいに敷き詰めて、足りない分は切る */
+    .shot img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;     /* ← 切り取り表示の肝 */
+      object-position: center;
+      display: block;
+    }
+
+    /* ふわっとした質感は残す（任意） */
+    .shot .overlay{
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.12), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.10), transparent 55%);
+      opacity: .55;
+      pointer-events:none;
+    }
+
+    /* hoverでちょい気持ちよく（任意） */
+    .shot:hover img{
+      transform: scale(1.02);
+      transition: 160ms ease;
+    }
 
     @media (max-width: 860px){
       .hero{ grid-template-columns: 1fr; }

@@ -67,6 +67,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </div>
   </section>
 
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <img id="lightbox-img" alt="" />
+  </div>
+
   <script type="module" src="/scripts/hime-gallery.js"></script>
 
   <style is:global>
@@ -223,7 +227,35 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
                   radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
       opacity: .9;
     }
+    /* ===== Lightbox ===== */
+    #lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
 
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
+    }
+
+    #lightbox.open{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #lightbox img{
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      background: #000;
+    }
 
     @media (max-width: 860px){
       .hero{ grid-template-columns: 1fr; }

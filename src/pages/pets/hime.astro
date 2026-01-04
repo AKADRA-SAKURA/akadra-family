@@ -1,17 +1,223 @@
 ---
+import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>姫芽ギャラリー</title>
-  </head>
-  <body>
-    <h1>姫芽ギャラリー</h1>
-    <div id="gallery"
-      style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+
+<BaseLayout title="姫芽ギャラリー | AKADRA Family" description="姫芽の写真一覧。S3/CloudFrontから読み込んで表示します。">
+  <section class="hero">
+    <div class="copy">
+      <p class="kicker">HIME GALLERY</p>
+      <h1>
+        姫芽の“いつもの顔”<br />
+        ぜんぶ集めた。
+      </h1>
+      <p class="lead">
+        S3に入っている姫芽フォルダの写真を、時系列っぽく並べて表示。
+        気まぐれに増えていきます。
+      </p>
+
+      <div class="ctaRow">
+        <a class="cta secondary" href="/">トップへ戻る</a>
+        <a class="cta primary" href="#photos">写真を見る</a>
+      </div>
+
+      <div class="chips">
+        <span class="chip">public</span>
+        <span class="chip">CloudFront</span>
+        <span class="chip">index.json</span>
+      </div>
     </div>
 
-    <script type="module" src="/scripts/hime-gallery.js"></script>
-  </body>
-</html>
+    <div class="card">
+      <div class="cardTop">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="title">Now Loading</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="label">Photos</div>
+          <div class="value" id="photoCount">-</div>
+        </div>
+        <div class="stat">
+          <div class="label">Updated</div>
+          <div class="value" id="updatedAt">-</div>
+        </div>
+      </div>
+
+      <p class="hint">※ 写真一覧は <code>/photos/hime/index.json</code> から読み込みます</p>
+    </div>
+  </section>
+
+  <section class="section" id="photos">
+    <div class="sectionHead">
+      <h2>Photos</h2>
+      <p>姫芽の写真をずらっと。</p>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <!-- JSがここに .shot を追加 -->
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+      <div class="shot skeleton" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <script type="module" src="/scripts/hime-gallery.js"></script>
+
+  <style>
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      padding: 22px 0 6px;
+      align-items: start;
+    }
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+      margin: 0 0 10px;
+    }
+    h1{
+      margin: 0;
+      line-height: 1.05;
+      font-size: clamp(34px, 4.6vw, 56px);
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      margin: 14px 0 0;
+      color: rgba(255,255,255,.78);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 52ch;
+    }
+
+    .ctaRow{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 18px; }
+    .cta{
+      text-decoration:none;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 750;
+      border: 1px solid rgba(255,255,255,.12);
+      transition: 160ms ease;
+      font-size: 13px;
+    }
+    .cta.primary{
+      background: linear-gradient(135deg, rgba(255,91,151,.40), rgba(88,166,255,.26));
+      border-color: rgba(255,255,255,.18);
+    }
+    .cta.primary:hover{ transform: translateY(-1px); filter: brightness(1.06); }
+    .cta.secondary{
+      background: rgba(255,255,255,.06);
+    }
+    .cta.secondary:hover{ background: rgba(255,255,255,.10); }
+
+    .chips{ display:flex; gap:8px; margin-top: 16px; flex-wrap: wrap; }
+    .chip{
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.72);
+    }
+
+    .card{
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      padding: 14px;
+    }
+    .cardTop{
+      display:flex; align-items:center; gap:8px;
+      padding: 4px 2px 12px;
+      color: rgba(255,255,255,.65);
+      font-size: 12px;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; background: rgba(255,255,255,.14); }
+    .title{ margin-left: 6px; }
+
+    .stats{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .stat{
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 12px;
+    }
+    .label{ font-size: 12px; color: rgba(255,255,255,.65); }
+    .value{ margin-top: 6px; font-size: 18px; font-weight: 850; }
+
+    .hint{
+      margin: 12px 2px 2px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    .section{ margin-top: 36px; }
+    .sectionHead h2{ margin:0; font-size: 18px; letter-spacing: -.01em; }
+    .sectionHead p{ margin: 6px 0 0; color: rgba(255,255,255,.68); font-size: 13px; }
+
+    .gallery{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .shot{
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      position:relative;
+    }
+    /* 画像は JS で <img> を中に入れる想定 */
+    .shot img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.001);
+    }
+    .shot .overlay{
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.12), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.10), transparent 55%);
+      opacity: .85;
+      pointer-events:none;
+    }
+    .shot:hover img{ filter: brightness(1.03) contrast(1.02); }
+    .shot.skeleton::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
+      opacity: .9;
+    }
+
+    @media (max-width: 860px){
+      .hero{ grid-template-columns: 1fr; }
+      .stats{ grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</BaseLayout>

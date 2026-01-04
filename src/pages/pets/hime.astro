@@ -180,43 +180,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     .gallery{
       margin-top: 14px;
       display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
-    }
-    .shot{
-      aspect-ratio: 1 / 1;
-      border-radius: 18px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      position:relative;
-    }
-    /* 画像は JS で <img> を中に入れる想定 */
-    .shot img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-      transform: scale(1.001);
-    }
-    .shot .overlay{
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.12), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.10), transparent 55%);
-      opacity: .85;
-      pointer-events:none;
-    }
-    .shot:hover img{ filter: brightness(1.03) contrast(1.02); }
-    .shot.skeleton::after{
-      content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
-      opacity: .9;
-    }
-    .gallery{
-      margin-top: 14px;
-      display:grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 12px;
     }
@@ -253,6 +216,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       transform: scale(1.02);
       transition: 160ms ease;
     }
+    .shot.skeleton::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
+                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
+      opacity: .9;
+    }
+
 
     @media (max-width: 860px){
       .hero{ grid-template-columns: 1fr; }

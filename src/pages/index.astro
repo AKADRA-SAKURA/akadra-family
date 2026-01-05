@@ -78,95 +78,157 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </section>
 
   <style>
+    /* ---- soft theme tokens (page-local) ---- */
+    :global(body){
+      background: radial-gradient(1200px 600px at 20% 0%, #fff7ea 0%, rgba(255,247,234,0) 60%),
+                  radial-gradient(1200px 600px at 80% 10%, #fff1f1 0%, rgba(255,241,241,0) 55%),
+                  #fbf7ef;
+      color: #3b2f2a;
+    }
+    :global(a){ color: inherit; }
+
     .hero{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
       gap: 22px;
-      padding: 22px 0 6px;
+      padding: 26px 0 8px;
       align-items: start;
     }
+
     .kicker{
       font-size: 12px;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.65);
+      color: rgba(59,47,42,.60);
       margin: 0 0 10px;
     }
+
     h1{
       margin: 0;
-      line-height: 1.05;
+      line-height: 1.08;
       font-size: clamp(34px, 4.6vw, 56px);
       letter-spacing: -0.02em;
+      color: #2f2521;
     }
+
     .lead{
       margin: 14px 0 0;
-      color: rgba(255,255,255,.78);
+      color: rgba(59,47,42,.78);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.75;
       max-width: 52ch;
     }
-    .ctaRow{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 18px; }
+
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
     .cta{
       text-decoration:none;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-weight: 750;
-      border: 1px solid rgba(255,255,255,.12);
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      border: 1px solid rgba(120,90,70,.18);
       transition: 160ms ease;
       font-size: 13px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(50,35,25,.10);
     }
-    .cta.primary{
-      background: linear-gradient(135deg, rgba(255,91,151,.40), rgba(88,166,255,.26));
-      border-color: rgba(255,255,255,.18);
-    }
-    .cta.primary:hover{ transform: translateY(-1px); filter: brightness(1.06); }
-    .cta.secondary{
-      background: rgba(255,255,255,.06);
-    }
-    .cta.secondary:hover{ background: rgba(255,255,255,.10); }
 
-    .chips{ display:flex; gap:8px; margin-top: 16px; flex-wrap: wrap; }
+    .cta.primary{
+      background: linear-gradient(180deg, #ffedd1, #ffe2bd);
+      border-color: rgba(198,132,68,.35);
+    }
+    .cta.primary:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+      box-shadow: 0 12px 26px rgba(50,35,25,.14);
+    }
+
+    .cta.secondary{
+      background: #fff;
+    }
+    .cta.secondary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(50,35,25,.14);
+    }
+
+    .chips{
+      display:flex;
+      gap:8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
     .chip{
       font-size: 12px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.72);
+      background: #fff;
+      border: 1px solid rgba(120,90,70,.18);
+      color: rgba(59,47,42,.72);
+      box-shadow: 0 6px 14px rgba(50,35,25,.08);
     }
 
+    /* ---- right card: from "glass neon" -> "soft paper card" ---- */
     .card{
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff, #fffaf1);
+      border: 1px solid rgba(120,90,70,.18);
+      box-shadow: 0 22px 60px rgba(50,35,25,.14);
       padding: 14px;
     }
+
     .cardTop{
-      display:flex; align-items:center; gap:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
       padding: 4px 2px 12px;
-      color: rgba(255,255,255,.65);
+      color: rgba(59,47,42,.60);
       font-size: 12px;
     }
-    .dot{ width:10px; height:10px; border-radius:999px; background: rgba(255,255,255,.14); }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background: rgba(198,132,68,.28);
+      border: 1px solid rgba(198,132,68,.22);
+    }
     .title{ margin-left: 6px; }
 
-    .preview{ display:flex; gap: 12px; align-items:center; }
-    .img{
-      width: 120px; height: 120px; border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.38), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.34), transparent 55%),
-                  rgba(255,255,255,.05);
+    .preview{
+      display:flex;
+      gap: 12px;
+      align-items:center;
     }
+
+    .img{
+      width: 120px;
+      height: 120px;
+      border-radius: 18px;
+      border: 1px solid rgba(120,90,70,.18);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,186,120,.55), transparent 58%),
+        radial-gradient(circle at 70% 70%, rgba(255,210,190,.55), transparent 56%),
+        #fff;
+      box-shadow: 0 10px 22px rgba(50,35,25,.10);
+    }
+
     .meta{ flex: 1; }
     .line{
       height: 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,.10);
+      background: rgba(120,90,70,.12);
       margin: 10px 0;
     }
-    .line.strong{ height: 14px; background: rgba(255,255,255,.14); width: 78%; }
+    .line.strong{
+      height: 14px;
+      background: rgba(120,90,70,.16);
+      width: 78%;
+    }
     .line.short{ width: 55%; }
 
     .grid{
@@ -175,21 +237,35 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       gap: 10px;
       margin-top: 14px;
     }
+
     .tile{
       height: 56px;
       border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      background: #fff;
+      border: 1px solid rgba(120,90,70,.16);
+      box-shadow: 0 8px 16px rgba(50,35,25,.08);
     }
+
     .hint{
       margin: 12px 2px 2px;
-      color: rgba(255,255,255,.55);
+      color: rgba(59,47,42,.55);
       font-size: 12px;
     }
 
-    .section{ margin-top: 36px; }
-    .sectionHead h2{ margin:0; font-size: 18px; letter-spacing: -.01em; }
-    .sectionHead p{ margin: 6px 0 0; color: rgba(255,255,255,.68); font-size: 13px; }
+    /* ---- sections ---- */
+    .section{ margin-top: 38px; }
+
+    .sectionHead h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: -.01em;
+      color: #2f2521;
+    }
+    .sectionHead p{
+      margin: 6px 0 0;
+      color: rgba(59,47,42,.70);
+      font-size: 13px;
+    }
 
     .gallery{
       margin-top: 14px;
@@ -197,41 +273,60 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 12px;
     }
+
     .shot{
       aspect-ratio: 1 / 1;
       border-radius: 18px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, #ffffff, #fff8ee);
+      border: 1px solid rgba(120,90,70,.16);
       overflow:hidden;
       position:relative;
+      box-shadow: 0 12px 26px rgba(50,35,25,.10);
     }
     .shot::after{
       content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(255,186,120,.25), transparent 55%),
+        radial-gradient(circle at 75% 75%, rgba(255,210,190,.22), transparent 55%);
       opacity: .9;
     }
 
+    /* ---- pet card ---- */
     .petCard{
       margin-top: 14px;
-      display:flex; align-items:center; gap: 14px;
+      display:flex;
+      align-items:center;
+      gap: 14px;
       padding: 14px;
-      border-radius: 20px;
+      border-radius: 22px;
       text-decoration:none;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      background: #fff;
+      border: 1px solid rgba(120,90,70,.18);
+      box-shadow: 0 14px 34px rgba(50,35,25,.12);
       transition: 160ms ease;
     }
-    .petCard:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
-    .avatar{
-      width: 48px; height: 48px; border-radius: 16px;
-      background: linear-gradient(135deg, rgba(255,91,151,.35), rgba(88,166,255,.26));
-      border: 1px solid rgba(255,255,255,.12);
+    .petCard:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 44px rgba(50,35,25,.14);
     }
-    .petName{ font-weight: 820; }
-    .petSub{ font-size: 12px; color: rgba(255,255,255,.65); margin-top: 2px; }
-    .arrow{ margin-left:auto; color: rgba(255,255,255,.7); font-weight: 900; }
+
+    .avatar{
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,186,120,.70), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(255,210,190,.70), transparent 55%),
+        #fff;
+      border: 1px solid rgba(198,132,68,.25);
+      box-shadow: 0 10px 18px rgba(50,35,25,.10);
+    }
+
+    .petName{ font-weight: 900; color:#2f2521; }
+    .petSub{ font-size: 12px; color: rgba(59,47,42,.66); margin-top: 2px; }
+    .arrow{ margin-left:auto; color: rgba(59,47,42,.55); font-weight: 900; }
 
     @media (max-width: 860px){
       .hero{ grid-template-columns: 1fr; }

@@ -74,78 +74,116 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   <script type="module" src="/scripts/hime-gallery.js"></script>
 
   <style is:global>
+    /* ===== Hero ===== */
     .hero{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
       gap: 22px;
-      padding: 22px 0 6px;
+      padding: 26px 0 8px;
       align-items: start;
     }
+
     .kicker{
       font-size: 12px;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.65);
+      color: rgba(59,47,42,.60);
       margin: 0 0 10px;
     }
+
     h1{
       margin: 0;
-      line-height: 1.05;
+      line-height: 1.08;
       font-size: clamp(34px, 4.6vw, 56px);
       letter-spacing: -0.02em;
+      color: #2f2521;
     }
+
     .lead{
       margin: 14px 0 0;
-      color: rgba(255,255,255,.78);
+      color: rgba(59,47,42,.78);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.75;
       max-width: 52ch;
     }
 
-    .ctaRow{ display:flex; gap:10px; flex-wrap: wrap; margin-top: 18px; }
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
     .cta{
       text-decoration:none;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-weight: 750;
-      border: 1px solid rgba(255,255,255,.12);
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-weight: 850;
+      border: 1px solid rgba(120,90,70,.18);
       transition: 160ms ease;
       font-size: 13px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(50,35,25,.10);
     }
-    .cta.primary{
-      background: linear-gradient(135deg, rgba(255,91,151,.40), rgba(88,166,255,.26));
-      border-color: rgba(255,255,255,.18);
-    }
-    .cta.primary:hover{ transform: translateY(-1px); filter: brightness(1.06); }
-    .cta.secondary{
-      background: rgba(255,255,255,.06);
-    }
-    .cta.secondary:hover{ background: rgba(255,255,255,.10); }
 
-    .chips{ display:flex; gap:8px; margin-top: 16px; flex-wrap: wrap; }
+    .cta.primary{
+      background: linear-gradient(180deg, #ffedd1, #ffe2bd);
+      border-color: rgba(198,132,68,.35);
+    }
+    .cta.primary:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+      box-shadow: 0 12px 26px rgba(50,35,25,.14);
+    }
+
+    .cta.secondary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(50,35,25,.14);
+    }
+
+    .chips{
+      display:flex;
+      gap:8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
     .chip{
       font-size: 12px;
       padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.72);
+      background: #fff;
+      border: 1px solid rgba(120,90,70,.18);
+      color: rgba(59,47,42,.72);
+      box-shadow: 0 6px 14px rgba(50,35,25,.08);
     }
 
+    /* ===== Right Card ===== */
     .card{
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff, #fffaf1);
+      border: 1px solid rgba(120,90,70,.18);
+      box-shadow: 0 22px 60px rgba(50,35,25,.14);
       padding: 14px;
     }
+
     .cardTop{
-      display:flex; align-items:center; gap:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
       padding: 4px 2px 12px;
-      color: rgba(255,255,255,.65);
+      color: rgba(59,47,42,.60);
       font-size: 12px;
     }
-    .dot{ width:10px; height:10px; border-radius:999px; background: rgba(255,255,255,.14); }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background: rgba(198,132,68,.28);
+      border: 1px solid rgba(198,132,68,.22);
+    }
+
     .title{ margin-left: 6px; }
 
     .stats{
@@ -154,84 +192,135 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       gap: 10px;
       margin-top: 6px;
     }
+
     .stat{
-      border-radius: 16px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(120,90,70,.16);
       padding: 12px;
+      box-shadow: 0 10px 18px rgba(50,35,25,.08);
     }
-    .label{ font-size: 12px; color: rgba(255,255,255,.65); }
-    .value{ margin-top: 6px; font-size: 18px; font-weight: 850; }
+
+    .label{
+      font-size: 12px;
+      color: rgba(59,47,42,.62);
+    }
+
+    .value{
+      margin-top: 6px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #2f2521;
+    }
 
     .hint{
       margin: 12px 2px 2px;
-      color: rgba(255,255,255,.55);
+      color: rgba(59,47,42,.58);
       font-size: 12px;
     }
+
     code{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255, 186, 120, .18);
+      border: 1px solid rgba(198,132,68,.22);
       padding: 2px 6px;
       border-radius: 999px;
+      color: rgba(59,47,42,.85);
     }
 
-    .section{ margin-top: 36px; }
-    .sectionHead h2{ margin:0; font-size: 18px; letter-spacing: -.01em; }
-    .sectionHead p{ margin: 6px 0 0; color: rgba(255,255,255,.68); font-size: 13px; }
+    /* ===== Section ===== */
+    .section{ margin-top: 38px; }
 
+    .sectionHead h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: -.01em;
+      color: #2f2521;
+    }
+
+    .sectionHead p{
+      margin: 6px 0 0;
+      color: rgba(59,47,42,.70);
+      font-size: 13px;
+    }
+
+    /* ===== Gallery ===== */
     .gallery{
       margin-top: 14px;
       display:grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 12px;
     }
+
     .shot{
       position: relative;
       width: 100%;
-      aspect-ratio: 1 / 1;   /* ← 正方形 */
-      overflow: hidden;      /* ← はみ出し非表示 */
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
       border-radius: 18px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+
+      background: linear-gradient(180deg, #ffffff, #fff8ee);
+      border: 1px solid rgba(120,90,70,.16);
+      box-shadow: 0 12px 26px rgba(50,35,25,.10);
+
+      transform: translateZ(0);
     }
 
-    /* 画像は枠いっぱいに敷き詰めて、足りない分は切る */
     .shot img{
       width: 100%;
       height: 100%;
-      object-fit: cover;     /* ← 切り取り表示の肝 */
+      object-fit: cover;
       object-position: center;
       display: block;
+      transform: scale(1.0001);
+      transition: transform 160ms ease, filter 160ms ease;
     }
 
-    /* ふわっとした質感は残す（任意） */
+    /* overlay: neonじゃなく淡い暖色に */
     .shot .overlay{
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.12), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.10), transparent 55%);
-      opacity: .55;
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(255,186,120,.18), transparent 55%),
+        radial-gradient(circle at 75% 75%, rgba(255,210,190,.16), transparent 55%);
+      opacity: .75;
       pointer-events:none;
     }
 
-    /* hoverでちょい気持ちよく（任意） */
     .shot:hover img{
-      transform: scale(1.02);
-      transition: 160ms ease;
+      transform: scale(1.03);
+      filter: saturate(1.02);
+    }
+
+    /* skeleton */
+    .shot.skeleton{
+      background: linear-gradient(180deg, #ffffff, #fff8ee);
     }
     .shot.skeleton::after{
       content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.18), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(88,166,255,.14), transparent 55%);
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg,
+          rgba(120,90,70,.06),
+          rgba(255,186,120,.18),
+          rgba(120,90,70,.06)
+        );
       opacity: .9;
+      animation: shimmer 1.2s infinite ease-in-out;
     }
-    /* ===== Lightbox ===== */
+
+    @keyframes shimmer{
+      0%{ transform: translateX(-30%); }
+      100%{ transform: translateX(30%); }
+    }
+
+    /* ===== Lightbox (dark is fine, but soften edges) ===== */
     #lightbox{
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.85);
+      background: rgba(30,22,18,.78);
       backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
@@ -252,9 +341,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       max-width: 92vw;
       max-height: 92vh;
       object-fit: contain;
-      border-radius: 14px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.6);
-      background: #000;
+      border-radius: 16px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      background: #111;
+      border: 1px solid rgba(255,255,255,.10);
     }
 
     @media (max-width: 860px){
@@ -262,4 +352,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       .stats{ grid-template-columns: 1fr 1fr; }
     }
   </style>
+
+
 </BaseLayout>

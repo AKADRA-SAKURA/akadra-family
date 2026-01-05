@@ -9,7 +9,6 @@ const currentPath = Astro.url.pathname;
   <div class="inner">
     <a class="brand" href="/" aria-label="トップへ">
       <span class="logo" aria-hidden="true">
-        <!-- シンプルな肉球アイコン（SVG） -->
         <svg viewBox="0 0 24 24" fill="none">
           <path d="M7.2 10.2c1 0 1.8-.9 1.8-2 0-1.2-.8-2.2-1.8-2.2S5.4 7 5.4 8.2c0 1.1.8 2 1.8 2ZM16.8 10.2c1 0 1.8-.9 1.8-2 0-1.2-.8-2.2-1.8-2.2S15 7 15 8.2c0 1.1.8 2 1.8 2ZM10.2 9.4c.9 0 1.6-.9 1.6-2 0-1.2-.7-2.1-1.6-2.1s-1.6.9-1.6 2.1c0 1.1.7 2 1.6 2ZM13.8 9.4c.9 0 1.6-.9 1.6-2 0-1.2-.7-2.1-1.6-2.1s-1.6.9-1.6 2.1c0 1.1.7 2 1.6 2Z" />
           <path d="M12 12.2c-2.6 0-5.3 1.8-5.3 4.4 0 2.2 2 3.7 5.3 3.7s5.3-1.5 5.3-3.7c0-2.6-2.7-4.4-5.3-4.4Z" />
@@ -37,79 +36,134 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <style>
+  /* Soft header */
   .header{
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: color-mix(in srgb, #0b0c10 72%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, #ffffff 10%, transparent);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* “paper” overlay */
+    background: color-mix(in srgb, #fbf7ef 82%, transparent);
+    border-bottom: 1px solid rgba(120, 90, 70, .16);
   }
+
   .inner{
-    max-width: 1100px; margin: 0 auto;
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 14px 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 12px 18px;
     gap: 14px;
   }
+
   .brand{
-    display:flex; align-items:center; gap:10px;
-    text-decoration:none; color: #fff;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color: #2f2521;
   }
+
   .logo{
-    width: 38px; height: 38px; border-radius: 12px;
-    display:grid; place-items:center;
-    background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
-    border: 1px solid rgba(255,255,255,.14);
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    width: 38px;
+    height: 38px;
+    border-radius: 14px;
+    display:grid;
+    place-items:center;
+
+    background: linear-gradient(180deg, #ffffff, #fff8ee);
+    border: 1px solid rgba(120, 90, 70, .18);
+    box-shadow: 0 10px 22px rgba(50,35,25,.10);
   }
-  .logo svg{ width: 22px; height: 22px; stroke: rgba(255,255,255,.85); }
-  .logo svg path{ stroke-width: 1.7; stroke: rgba(255,255,255,.85); fill: rgba(255,255,255,.06); }
+
+  .logo svg{
+    width: 22px;
+    height: 22px;
+  }
+  .logo svg path{
+    stroke-width: 1.7;
+    stroke: rgba(80, 55, 40, .85);
+    fill: rgba(255, 186, 120, .14);
+  }
 
   .brandText{
-    font-weight: 700; letter-spacing: .2px;
+    font-weight: 850;
+    letter-spacing: .2px;
     font-size: 14px;
-    opacity: .95;
+    color: #2f2521;
   }
-  .nav{ display:flex; gap: 8px; align-items:center; }
+
+  .nav{
+    display:flex;
+    gap: 8px;
+    align-items:center;
+  }
+
   .navLink{
     padding: 8px 10px;
     border-radius: 999px;
     text-decoration:none;
-    color: rgba(255,255,255,.82);
+
+    color: rgba(59,47,42,.78);
+    background: transparent;
     border: 1px solid transparent;
+
     transition: 160ms ease;
-    font-weight: 600;
+    font-weight: 750;
     font-size: 13px;
   }
+
   .navLink:hover{
-    background: rgba(255,255,255,.06);
-    border-color: rgba(255,255,255,.10);
-    color: #fff;
+    background: #fff;
+    border-color: rgba(120, 90, 70, .16);
+    box-shadow: 0 10px 18px rgba(50,35,25,.08);
+    color: #2f2521;
   }
+
   .navLink.active{
-    background: rgba(255,255,255,.10);
-    border-color: rgba(255,255,255,.16);
-    color: #fff;
+    background: linear-gradient(180deg, #ffedd1, #ffe2bd);
+    border-color: rgba(198, 132, 68, .32);
+    box-shadow: 0 12px 22px rgba(50,35,25,.10);
+    color: #2f2521;
   }
-  .right{ display:flex; gap: 8px; align-items:center; }
+
+  .right{
+    display:flex;
+    gap: 8px;
+    align-items:center;
+  }
+
   .pill{
     padding: 8px 10px;
     border-radius: 999px;
     text-decoration:none;
-    color: rgba(255,255,255,.85);
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.12);
+
+    color: rgba(59,47,42,.82);
+    background: #fff;
+    border: 1px solid rgba(120, 90, 70, .16);
+
     font-size: 12px;
-    font-weight: 650;
+    font-weight: 800;
+
     transition: 160ms ease;
     white-space: nowrap;
+    box-shadow: 0 10px 18px rgba(50,35,25,.08);
   }
-  .pill:hover{ background: rgba(255,255,255,.12); color:#fff; }
+
+  .pill:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(50,35,25,.12);
+    color:#2f2521;
+  }
+
   .pill.ghost{
     background: transparent;
-    border-color: rgba(255,255,255,.10);
+    box-shadow: none;
   }
-  @media (max-width: 720px){
-    .brandText{ display:none; }
-    .right{ display:none; }
-  }
-</style>
+  .pill.ghost:hover{
+    background: #fff;
+    box-shadow: 0 14px 26px rgba

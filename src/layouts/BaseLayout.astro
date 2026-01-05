@@ -11,13 +11,13 @@ const { title = "Pet Gallery", description = "家族のペット写真ギャラ�
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="light" />
   </head>
   <body>
-    <div class="bg">
-      <div class="noise" aria-hidden="true"></div>
-      <div class="glow g1" aria-hidden="true"></div>
-      <div class="glow g2" aria-hidden="true"></div>
+    <div class="bg" aria-hidden="true">
+      <div class="noise"></div>
+      <div class="wash w1"></div>
+      <div class="wash w2"></div>
     </div>
 
     <SiteHeader />
@@ -31,39 +31,88 @@ const { title = "Pet Gallery", description = "家族のペット写真ギャラ�
 </html>
 
 <style>
+  /* ---- global baseline ---- */
   :global(html, body){ height:100%; }
+
   :global(body){
     margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
-    color: rgba(255,255,255,.92);
-    background: #0b0c10;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+      "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    color: #3b2f2a;
+    background: #fbf7ef;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   :global(a){ color: inherit; }
-  .main{ max-width:1100px; margin:0 auto; padding: 26px 18px 60px; }
 
-  .bg{ position: fixed; inset: 0; z-index:-1; overflow:hidden; }
+  /* Optional: nicer selection */
+  :global(::selection){
+    background: rgba(255, 196, 120, .45);
+  }
+
+  /* ---- layout container ---- */
+  .main{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 22px 18px 64px;
+  }
+
+  /* ---- background: soft paper ---- */
+  .bg{
+    position: fixed;
+    inset: 0;
+    z-index:-1;
+    overflow:hidden;
+    background:
+      radial-gradient(1200px 640px at 18% 0%, #fff3db 0%, rgba(255,243,219,0) 62%),
+      radial-gradient(1100px 620px at 82% 12%, #ffecec 0%, rgba(255,236,236,0) 58%),
+      radial-gradient(900px 520px at 55% 92%, #f4fbff 0%, rgba(244,251,255,0) 55%),
+      #fbf7ef;
+  }
+
   .noise{
-    position:absolute; inset:-40%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
+    position:absolute;
+    inset:-40%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
     transform: rotate(8deg);
-    mix-blend-mode: overlay;
-    opacity: .35;
+    opacity: .22;
     pointer-events:none;
+    mix-blend-mode: multiply;
   }
-  .glow{
-    position:absolute; width: 900px; height: 900px; border-radius: 999px;
-    filter: blur(70px);
-    opacity: .45;
-    pointer-events:none;
-  }
-  .g1{ left:-260px; top:-280px; background: radial-gradient(circle at 30% 30%, rgba(255,91,151,.55), transparent 55%); }
-  .g2{ right:-320px; bottom:-360px; background: radial-gradient(circle at 30% 30%, rgba(88,166,255,.55), transparent 55%); }
 
+  /* soft color “wash” blobs (no neon glow) */
+  .wash{
+    position:absolute;
+    width: 980px;
+    height: 980px;
+    border-radius: 999px;
+    filter: blur(90px);
+    opacity: .55;
+    pointer-events:none;
+  }
+  .w1{
+    left: -340px;
+    top: -360px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 198, 122, .70), transparent 60%);
+  }
+  .w2{
+    right: -380px;
+    bottom: -420px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 205, 195, .70), transparent 60%);
+  }
+
+  /* ---- footer ---- */
   .footer{
-    margin-top: 44px;
+    margin-top: 46px;
     padding-top: 18px;
-    border-top: 1px solid rgba(255,255,255,.10);
+    border-top: 1px solid rgba(120, 90, 70, .18);
     font-size: 12px;
-    color: rgba(255,255,255,.65);
+    color: rgba(59,47,42,.62);
+  }
+
+  /* ---- small screens ---- */
+  @media (max-width: 560px){
+    .main{ padding: 18px 14px 56px; }
   }
 </style>

@@ -1,5 +1,6 @@
 const BASE = "https://akadra-family.com";
-const INDEX_URL = `${BASE}/photos/hime/index.json`;
+// ✅ Chromeキャッシュ対策: クエリで必ず最新を取りに行く
+const INDEX_URL = `${BASE}/photos/hime/index.json?t=${Date.now()}`;
 
 // 誕生日（姫芽） ※必要ならpetごとに分けてもOK
 const BIRTHDAY = { year: 2025, month: 2, day: 16 };
@@ -39,10 +40,15 @@ function addDays(date, days) {
   return d;
 }
 function ageRangeLabel(ageYear) {
-  // 0歳: birthday〜birthday+1y-1day
-  // 1歳: birthday+1y〜birthday+2y-1day
-  const start = new Date(BIRTHDAY.year + ageYear, BIRTHDAY.month - 1, BIRTHDAY.day);
-  const end = addDays(new Date(BIRTHDAY.year + ageYear + 1, BIRTHDAY.month - 1, BIRTHDAY.day), -1);
+  const start = new Date(
+    BIRTHDAY.year + ageYear,
+    BIRTHDAY.month - 1,
+    BIRTHDAY.day
+  );
+  const end = addDays(
+    new Date(BIRTHDAY.year + ageYear + 1, BIRTHDAY.month - 1, BIRTHDAY.day),
+    -1
+  );
   return `${ageYear}歳（${fmtYMD(start)}～${fmtYMD(end)}）`;
 }
 
@@ -70,58 +76,17 @@ function createShot(url, alt) {
   return shot;
 }
 
-// sticky chips bar（CSSはJSから最小付与。気に入ったらastro側に移してOK）
-function createChipsBar() {
-  const bar = document.createElement("div");
-  bar.id = "ageChips";
-  bar.style.position = "sticky";
-  bar.style.top = "10px";
-  bar.style.zIndex = "30";
-  bar.style.margin = "12px 0 10px";
-  bar.style.padding = "10px";
-  bar.style.borderRadius = "18px";
-  bar.style.border = "1px solid rgba(120,90,70,.18)";
-  bar.style.background = "rgba(255,255,255,.85)";
-  bar.style.backdropFilter = "blur(10px)";
-  bar.style.boxShadow = "0 10px 22px rgba(50,35,25,.10)";
-  bar.style.display = "flex";
-  bar.style.flexWrap = "wrap";
-  bar.style.gap = "8px";
-  return bar;
-}
-
-function makeChip(label, onClick) {
-  const chip = document.createElement("button");
-  chip.type = "button";
-  chip.textContent = label;
-  chip.style.cursor = "pointer";
-  chip.style.border = "1px solid rgba(120,90,70,.18)";
-  chip.style.background = "#fff";
-  chip.style.borderRadius = "999px";
-  chip.style.padding = "8px 10px";
-  chip.style.fontSize = "12px";
-  chip.style.fontWeight = "850";
-  chip.style.color = "rgba(59,47,42,.82)";
-  chip.style.boxShadow = "0 6px 14px rgba(50,35,25,.08)";
-  chip.addEventListener("click", onClick);
-  return chip;
-}
-
 function setChipActive(chip, active) {
+  // ✅ astro側CSSが data-active="1" を見てスタイルを当てる
   chip.dataset.active = active ? "1" : "0";
-  chip.style.borderColor = active ? "rgba(198,132,68,.45)" : "rgba(120,90,70,.18)";
-  chip.style.background = active ? "linear-gradient(180deg, #ffedd1, #ffe2bd)" : "#fff";
 }
 
 function observeSectionsAndSyncChips(sectionIds, chipMap) {
-  // どのセクションが中央付近にいるかでactiveを切替
   const observer = new IntersectionObserver(
     (entries) => {
-      // 画面に一番出てるやつを選ぶ（intersectionRatio最大）
       const visible = entries
         .filter((e) => e.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
       if (!visible) return;
 
       const id = visible.target.id;
@@ -130,7 +95,7 @@ function observeSectionsAndSyncChips(sectionIds, chipMap) {
       }
     },
     {
-      // 上のstickyバーの分を少し避ける
+      // ✅ stickyバー分を避ける（上20%は無視、下70%も無視気味）
       root: null,
       rootMargin: "-20% 0px -70% 0px",
       threshold: [0.05, 0.15, 0.3, 0.5, 0.75],
@@ -144,7 +109,7 @@ function observeSectionsAndSyncChips(sectionIds, chipMap) {
 }
 
 async function main() {
-  const galleryRoot = document.getElementById("gallery");
+  const galleryRoot = document.getElementById("gallery"); // .galleryRoot
   const countEl = document.getElementById("photoCount");
   const updatedEl = document.getElementById("updatedAt");
 
@@ -185,47 +150,46 @@ async function main() {
     return a - b;
   });
 
-  // 1枚もない年齢はそもそもgroupsに存在しないので表示されない ✅
-  // ただし itemsが0なら何も出ない
   if (ageKeys.length === 0) {
     galleryRoot.textContent = "写真がありません。";
     return;
   }
 
   // --- sticky chips bar ---
-  const chipsBar = createChipsBar();
+  const chipsBar = document.createElement("div");
+  chipsBar.id = "ageChips"; // ✅ astro側CSSでスタイルされる
   galleryRoot.appendChild(chipsBar);
 
   const chipMap = new Map(); // sectionId -> chip button
   const sectionIds = [];
 
   // --- render sections ---
-  ageKeys.forEach((ageYear) => {
+  ageKeys.forEach((ageYear, sectionIndex) => {
+    const groupItems = groups.get(ageYear) || [];
+    if (groupItems.length === 0) return; // 念のため
+
     const sectionId = ageYear === -1 ? "age-unknown" : `age-${ageYear}`;
     sectionIds.push(sectionId);
 
     const section = document.createElement("section");
     section.id = sectionId;
-    section.style.marginTop = "18px";
+    section.className = "ageBlock";
 
     // 見出し
     const h = document.createElement("h3");
-    h.style.margin = "10px 2px";
-    h.style.fontSize = "14px";
-    h.style.fontWeight = "900";
-    h.style.color = "rgba(59,47,42,.78)";
+    h.className = "ageTitle";
+    h.textContent = ageYear === -1 ? "年齢不明" : ageRangeLabel(ageYear);
 
-    if (ageYear === -1) {
-      h.textContent = "年齢不明";
-    } else {
-      h.textContent = ageRangeLabel(ageYear);
-    }
+    // 件数バッジ（任意、かわいい）
+    const badge = document.createElement("span");
+    badge.className = "count";
+    badge.textContent = `${groupItems.length}枚`;
+    h.appendChild(badge);
 
-    // タイルgrid（既存の.galleryスタイルを再利用）
+    // ✅ 写真タイル専用グリッド（astro側CSSは .galleryGrid を想定）
     const grid = document.createElement("div");
-    grid.className = "gallery";
+    grid.className = "galleryGrid";
 
-    const groupItems = groups.get(ageYear) || [];
     groupItems.forEach((it, idx) => {
       const url = `${BASE}/${it.key}`;
       const shot = createShot(url, `hime photo ${ageYear}:${idx + 1}`);
@@ -236,26 +200,35 @@ async function main() {
     section.appendChild(grid);
     galleryRoot.appendChild(section);
 
-    // チップ追加
-    const chipLabel =
-      ageYear === -1
-        ? "不明"
-        : `${ageYear}歳 (${groupItems.length})`;
-    const chip = makeChip(chipLabel, () => {
+    // ---- chips ----
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.textContent =
+      ageYear === -1 ? `不明 (${groupItems.length})` : `${ageYear}歳 (${groupItems.length})`;
+
+    chip.addEventListener("click", () => {
       const target = document.getElementById(sectionId);
       if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      // クリック直後の見た目も即反映
+      // クリック直後にactive即反映
       for (const [sid, c] of chipMap.entries()) setChipActive(c, sid === sectionId);
     });
 
-    // 最初の年齢をactiveに
-    if (sectionIds.length === 1) setChipActive(chip, true);
+    // 最初のチップをactiveに
+    if (sectionIndex === 0) setChipActive(chip, true);
+
     chipMap.set(sectionId, chip);
     chipsBar.appendChild(chip);
   });
 
-  // スクロールに追随してactiveを切り替え
+  // スクロールに追随してactive切替
   observeSectionsAndSyncChips(sectionIds, chipMap);
 }
 
-main();
+main().catch((e) => {
+  // 何か起きたら画面にも出るように（静かに死ぬのを防ぐ）
+  const galleryRoot = document.getElementById("gallery");
+  if (galleryRoot) {
+    galleryRoot.textContent = `表示処理でエラー: ${e?.message || e}`;
+  }
+  console.error(e);
+});

@@ -54,16 +54,19 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <p>姫芽の写真をずらっと。</p>
     </div>
 
-    <div class="gallery" id="gallery">
-      <!-- JSがここに .shot を追加 -->
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
-      <div class="shot skeleton" aria-hidden="true"></div>
+    <!-- ✅ ここは「縦積みラッパー」にする（年齢セクション/チップなどをここに積む） -->
+    <div class="galleryRoot" id="gallery">
+      <!-- JSがここを置換 -->
+      <div class="galleryGrid" aria-hidden="true">
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+        <div class="shot skeleton"></div>
+      </div>
     </div>
   </section>
 
@@ -211,6 +214,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       font-size: 18px;
       font-weight: 900;
       color: #2f2521;
+      overflow-wrap: anywhere;
     }
 
     .hint{
@@ -245,14 +249,92 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       font-size: 13px;
     }
 
-    /* ===== Gallery ===== */
-    .gallery{
+    /* =========================================================
+       ✅ New: Gallery Root / Age sections / Sticky chips
+       ========================================================= */
+
+    /* galleryの親は縦積み（年齢ブロック/チップをここに並べる） */
+    .galleryRoot{
       margin-top: 14px;
-      display:grid;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* 年齢ブロック（JSが <section class="ageBlock"> を作る想定） */
+    .ageBlock{
+      padding-top: 6px;
+    }
+
+    .ageTitle{
+      margin: 8px 2px 10px;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      color: rgba(59,47,42,.78);
+      display:flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .ageTitle .count{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(59,47,42,.55);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(120,90,70,.16);
+      background: rgba(255,255,255,.72);
+    }
+
+    /* 写真タイル専用グリッド（JSがこのdivにshotを入れる想定） */
+    .galleryGrid{
+      display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       gap: 12px;
     }
 
+    /* sticky chips bar（JSが id="ageChips" を作る想定） */
+    #ageChips{
+      position: sticky;
+      top: 10px;
+      z-index: 30;
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(120,90,70,.18);
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 22px rgba(50,35,25,.10);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    #ageChips button{
+      appearance: none;
+      cursor: pointer;
+      border: 1px solid rgba(120,90,70,.18);
+      background: #fff;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 850;
+      color: rgba(59,47,42,.82);
+      box-shadow: 0 6px 14px rgba(50,35,25,.08);
+      transition: transform .06s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    #ageChips button:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(50,35,25,.12);
+    }
+
+    #ageChips button[data-active="1"]{
+      border-color: rgba(198,132,68,.45);
+      background: linear-gradient(180deg, #ffedd1, #ffe2bd);
+    }
+
+    /* ===== Photo Tile ===== */
     .shot{
       position: relative;
       width: 100%;
@@ -277,7 +359,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       transition: transform 160ms ease, filter 160ms ease;
     }
 
-    /* overlay: neonじゃなく淡い暖色に */
     .shot .overlay{
       position:absolute;
       inset:0;
@@ -316,7 +397,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       100%{ transform: translateX(30%); }
     }
 
-    /* ===== Lightbox (dark is fine, but soften edges) ===== */
+    /* ===== Lightbox ===== */
     #lightbox{
       position: fixed;
       inset: 0;
@@ -352,6 +433,4 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       .stats{ grid-template-columns: 1fr 1fr; }
     }
   </style>
-
-
 </BaseLayout>
